@@ -1,27 +1,10 @@
 import express, {Router} from 'express'
+import { loginUser, logoutUser, registerUser } from '../controllers/authController';
+
 const userRouter = Router();
 
-userRouter.post("/signup",(req,res)=>{
-    const body = req.body;
-    const secret = process.env.JWT_SECRET || "";
+userRouter.post("/signup",registerUser);
+userRouter.post("signin", loginUser);
+userRouter.post("logout",logoutUser);
 
-    const {success} = signupSchema.safeParse(body);
-    if(!success){
-        res.json({
-            message:"Incorrect Inputs!"
-        });    
-    }
-    const findUser = await client.user.findFirst({
-        where:{
-            email: body.email
-        }
-    })
-    if(findUser){
-        res.json({
-            message: "Email already taken / Incorrect inputs"
-        })
-        return
-
-})
-
-export default userRouter
+export default userRouter;
