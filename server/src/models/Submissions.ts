@@ -15,12 +15,6 @@ const submissionSchema = new Schema(
       type: String,
       required: true,
     },
-    input: {
-      type: String, //improve type
-    },
-    output: {
-      type: String, //improve type
-    },
     status: {
       type: String,
     },
