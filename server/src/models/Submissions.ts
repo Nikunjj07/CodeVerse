@@ -14,13 +14,7 @@ const submissionSchema = new Schema(
     sourceCode: {
       type: String,
       required: true,
-    },
-    status: {
-      type: String,
-    },
-    error: {
-      type: String,
-    },
+    }
   },
   {
     timestamps: true,

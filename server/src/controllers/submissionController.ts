@@ -1,8 +1,6 @@
 import { Request, Response } from "express";
 import Submission from "../models/Submissions";
 import axios from "axios";
-import { Buffer } from "buffer";
-
 
 const JUDGE0_API = process.env.JUDGE0_API;
 const JUDGE0_API_KEY = process.env.JUDGE0_API_KEY;
@@ -69,19 +67,17 @@ export const runCode = async (req: Request, res: Response) => {
 
 export const createSubmission = async (req: Request, res: Response) => { //add default name
   try {
-    const { user, language, sourceCode, input, status, error } = req.body;
+    const { language_id, source_code } = req.body;
+    const userId = req.userId;
 
-    if (!user || !language || !sourceCode) {
+    if (!userId || !language_id || !source_code) {
       return res.status(400).json({ message: "Required fields missing" });
     }
 
     const newSubmission = await Submission.create({
-      user,
-      language,
-      sourceCode,
-      input,
-      status,
-      error,
+      user: userId,
+      language: language_id,
+      sourceCode: source_code
     });
 
     res.status(201).json(newSubmission);
@@ -93,7 +89,7 @@ export const createSubmission = async (req: Request, res: Response) => { //add d
 
 
 export const getSubmissionsByUser = async (req: Request, res: Response) => {
-  const { userId } = req.params;
+  const userId = req.userId;
 
   if (!userId){
     return res.status(400).json({ message: "Invalid user ID" });
@@ -126,7 +122,6 @@ export const getSubmissionById = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Server Error", error: err });
   }
 };
-
 
 export const updateSubmission = async (req: Request, res: Response) => {
   const { id } = req.params;
