@@ -5,7 +5,7 @@ export const AuthCard = ({ InputHeader }: { InputHeader: "Sign In" | "Sign Up" }
     return (
         <div className="h-screen flex flex-col justify-center">
             <div className="flex  justify-center">
-                <div className="max-w-sm p-6 bg-zinc-800 border border-zinc-600 rounded-lg shadow-sm">
+                <div className="min-w-sm min-h- p-6 shadow-sm">
                     <h2 className="text-2xl font-bold mb-6 text-center text-gray-100">
                         {InputHeader == "Sign In" ? "Welcome Back" : "Create New Account"}
                     </h2>

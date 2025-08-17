@@ -7,7 +7,7 @@ import { SignUp } from './pages/SignUp'
 function App() {
 
   return (
-    <div className='bg-zinc-900 text-gray-100'>
+    <div className='bg-neutral-900 text-gray-100 min-h-screen'>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Landing />} />
