@@ -2,12 +2,19 @@ import User from "../models/User";
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import { sign } from "jsonwebtoken";
-
+import { signupInput , signinInput} from "codeverse-common/src/index"
 //add schema validation
 
 export const registerUser = async (req: Request, res: Response) => {
   try {
     const { username, email, password } = req.body;
+
+    const parsed = signupInput.safeParse(req.body);
+    if (!parsed.success) {
+      return res.status(400).json({
+        message: "Invalid input"
+      });
+    }
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -43,6 +50,12 @@ export const registerUser = async (req: Request, res: Response) => {
 export const loginUser = async (req: Request, res: Response) => {
     try{
         const {email, password} = req.body;
+        const parsed = signinInput.safeParse(req.body);
+        if (!parsed.success) {
+            return res.status(400).json({
+                message: "Invalid input"
+            });
+        }
         const user = await User.findOne({
             email
         });

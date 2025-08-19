@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Submission from "../models/Submissions";
 import axios from "axios";
-
+import { createUserSubmission , updateSubmissionInput } from "codeverse-common/src/index"
 const JUDGE0_API = process.env.JUDGE0_API;
 const JUDGE0_API_KEY = process.env.JUDGE0_API_KEY;
 
@@ -68,6 +68,12 @@ export const runCode = async (req: Request, res: Response) => {
 export const createSubmission = async (req: Request, res: Response) => { //add default name
   try {
     const { language_id, source_code } = req.body;
+    const parsed = createUserSubmission.parse(req.body);
+    if(!parsed) {
+      return res.status(400).json({ 
+        message: "Invalid submission data" 
+      });
+    }
     const userId = req.userId;
 
     if (!userId || !language_id || !source_code) {
@@ -126,7 +132,7 @@ export const getSubmissionById = async (req: Request, res: Response) => {
 export const updateSubmission = async (req: Request, res: Response) => {
   const { id } = req.params;
   const updateData = req.body;
-
+  const parsed = updateSubmissionInput.safeParse(updateData);
   if (!id) {
     return res.status(400).json({ message: "Invalid submission ID" });
   }
