@@ -14,7 +14,9 @@ export const Navbar = () => {
                 </span>
 
                 <div className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
-                    <Button label="Editor" onClick={()=>{console.log("heheheh")}} />
+                    <Button label="Editor" onClick={()=>{
+                        navigate("/new");
+                    }} />
                     <Button label="Logout" onClick={async()=>{
                         const res = await logoutUser();
                         if(res.ok){

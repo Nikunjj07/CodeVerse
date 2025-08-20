@@ -7,6 +7,11 @@ const submissionSchema = new Schema(
       ref: "User",
       required: true,
     },
+    name: {
+      type: String,
+      required: false,
+      default: "Untitled Submission"
+    },
     language: {
       type: String,
       required: true,

@@ -24,6 +24,7 @@ export const createUserSubmission = z.object({
 export type CreateSubmissionType = z.infer<typeof createUserSubmission>;
 
 export const updateSubmissionInput = z.object({
+    name: z.string().optional(),
     language_id: z.number(),
     source_code: z.string()
 })

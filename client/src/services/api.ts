@@ -68,3 +68,70 @@ export const logoutUser = async () => {
     };
 }
 
+export const getSubmissions = async () => {
+    const res = await fetch(`${url}/submission/all`, {
+        method: "GET",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    const data = await res.json();
+    return {
+        ok: res.ok,
+        status: res.status,
+        data
+    };
+}
+
+export const getSubmissionById = async (id: string) => {
+    const res = await fetch(`${url}/submission/${id}`,{
+        method: "GET",
+        credentials:"include",
+        headers:{
+            "Content-Type": "application/json",
+        }
+    });
+    const data = await res.json();
+    return {
+        ok: res.ok,
+        status: res.status,
+        data
+    };
+}
+
+export const saveSubmission = async ({source_code, language_id}:{source_code:string, language_id:number})=>{
+    const res = await fetch(`${url}/submission/save`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+            source_code, 
+            language_id 
+        }),
+        credentials: "include"
+    });
+    const data = await res.json();
+    return {
+        ok: res.ok,
+        status: res.status,
+        data
+    };
+}
+
+export const deleteSubmission = async (submissionId: string) => {
+    const res = await fetch(`${url}/submission/delete/${submissionId}`, {
+        method: "DELETE",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    const data = await res.json();
+    return {
+        ok: res.ok,
+        status: res.status,
+        data
+    };
+}

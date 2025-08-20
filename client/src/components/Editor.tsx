@@ -2,8 +2,9 @@ import { Editor } from "@monaco-editor/react";
 import type { OnMount } from "@monaco-editor/react";
 import { useRef, useState } from "react";
 import { LanguageSelector } from "./LanguageSelector";
-import { codeSnippets } from "../constants";
+import { codeSnippets, languages } from "../constants";
 import { OutputBox } from "./OutputBox";
+import { saveSubmission } from "../services/api";
 
 export type LanguageKey = keyof typeof codeSnippets;
 
@@ -26,10 +27,18 @@ export const CodeEditor = () => {
         <div className="p-10 flex items">
             <div className="w-[60%]">
                 <span className="font-bold text-xl">Language</span>
-                <div className="mt-2">
+                <div className="mt-2 justify-between flex items-center">
                     
                     <LanguageSelector language={language} onSelect={onSelect} />
+                    <button  className="inline-flex justify-center gap-x-1.5 rounded-lg bg-neutral-900 mb-2 px-6 py-2 text-sm font-semibold text-blue-400 hover:bg-white/20 border border-blue-400" onClick={() => {
+                        const code = editorRef.current.getValue();
+                        saveSubmission({
+                            source_code: code,
+                            language_id: languages[language as LanguageKey]
+                        })
+                    }}>Save</button>
                 </div>
+                
                 <Editor
                     height="80vh"
                     theme="vs-dark"

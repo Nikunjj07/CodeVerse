@@ -1,7 +1,21 @@
+import { useEffect, useState } from "react";
 import { Navbar } from "../components/Navbar";
 import { SubmissionBox } from "../components/SubmissionBox";
+import { getSubmissions } from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 export const Dashboard = () => {
+    const [submissions, setSubmissions] = useState<any[]>([]);
+    const navigate = useNavigate();
+    useEffect(() => {
+        const fetchSubmissions = async () => {
+            const response = await getSubmissions();
+            if (response.ok) {
+                setSubmissions(response.data);
+            }
+        };
+        fetchSubmissions();
+    }, []);
     return (
         <div className="min-h-screen">
             <Navbar />
@@ -11,12 +25,15 @@ export const Dashboard = () => {
                 </div>
                 <div className="flex flex-col py-10 px-5">
                     <span className="text-2xl font-bold py-2">Quick Actions</span>
-                    <button className="max-w-xs h-30 text-white bg-zinc-800 hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-purple-300 rounded-lg text-xl px-5 py-2.5 me-2 mb-2">
+                    <button className="max-w-xs h-30 text-white bg-zinc-800 hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-purple-300 rounded-lg text-xl px-5 py-2.5 me-2 mb-2"
+                    onClick={()=>{
+                        navigate("/new");
+                    }}>
                         New Project +
                     </button>
                 </div>
                 <div>
-                    <SubmissionBox />
+                    <SubmissionBox submissionList={submissions} />
                 </div>
             </div>
         </div>

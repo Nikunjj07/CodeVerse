@@ -6,3 +6,7 @@ export const codeSnippets = {
     java: "// Java code snippet\nSystem.out.println('Hello, world!');",
     cpp: "// C++ code snippet\n#include <iostream>\nint main() {\n    std::cout << 'Hello, world!';\n    return 0;\n}",
 }
+
+export const getKeyByValue = (obj: Record<string, number>, value: number): string | undefined => {
+  return Object.keys(obj).find(key => obj[key] === value);
+};

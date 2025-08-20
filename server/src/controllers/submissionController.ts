@@ -67,14 +67,19 @@ export const runCode = async (req: Request, res: Response) => {
 
 export const createSubmission = async (req: Request, res: Response) => { //add default name
   try {
-    const { language_id, source_code } = req.body;
-    const parsed = createUserSubmission.parse(req.body);
+    const { language_id, source_code, name } = req.body;
+    const userId = req.userId;
+    const parsed = createUserSubmission.parse({
+      user_id: userId,
+      name,
+      language_id,
+      source_code
+    });
     if(!parsed) {
       return res.status(400).json({ 
         message: "Invalid submission data" 
       });
     }
-    const userId = req.userId;
 
     if (!userId || !language_id || !source_code) {
       return res.status(400).json({ message: "Required fields missing" });
@@ -82,6 +87,7 @@ export const createSubmission = async (req: Request, res: Response) => { //add d
 
     const newSubmission = await Submission.create({
       user: userId,
+      name,
       language: language_id,
       sourceCode: source_code
     });
@@ -102,10 +108,17 @@ export const getSubmissionsByUser = async (req: Request, res: Response) => {
   }
 
   try {
-    const submissions = await Submission.find({ user: userId }).sort({ createdAt: -1 });
+    const submissions = await Submission.find({ 
+      user: userId 
+    }).sort({ 
+      createdAt: -1 
+    });
     res.status(200).json(submissions);
   } catch (err) {
-    res.status(500).json({ message: "Server Error", error: err });
+    res.status(500).json({ 
+      message: "Server Error",
+      error: err 
+    });
   }
 };
 
@@ -133,6 +146,11 @@ export const updateSubmission = async (req: Request, res: Response) => {
   const { id } = req.params;
   const updateData = req.body;
   const parsed = updateSubmissionInput.safeParse(updateData);
+  if (!parsed.success) {
+    return res.status(400).json({ 
+      message: "Invalid update data" 
+    });
+  }
   if (!id) {
     return res.status(400).json({ message: "Invalid submission ID" });
   }
