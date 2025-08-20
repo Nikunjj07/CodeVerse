@@ -57,7 +57,7 @@ export const runCode = async (req: Request, res: Response) => {
       return res.status(408).json({ error: "Execution timed out" });
     }
 
-    res.status(200).json(result.stdout);
+    res.status(200).json(result);
 
   } catch (err) {
     console.error(err);

@@ -1,10 +1,10 @@
-import { AuthCard } from "../components/AuthCard";
+import { SigninCard } from "../components/SigninCard";
 
 export const SignIn = () => {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3">
             <div className="col-span-1">
-                <AuthCard InputHeader="Sign In" />
+                <SigninCard />
             </div>
             <div className="bg-gradient-to-r from-purple-700 to-pink-600 col-span-2">
                 <div className="flex items-center justify-center h-screen flex-col">

@@ -26,7 +26,7 @@ export const CodeEditor = () => {
         <div className="p-10 flex items">
             <div className="w-[60%]">
                 <span className="font-bold text-xl">Language</span>
-                <div >
+                <div className="mt-2">
                     
                     <LanguageSelector language={language} onSelect={onSelect} />
                 </div>
