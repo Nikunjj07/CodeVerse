@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import Submission from "../models/Submissions";
 import axios from "axios";
-import { createUserSubmission , updateSubmissionInput } from "codeverse-common/src/index"
+import { createUserSubmission , updateSubmissionInput } from "codeverse-common";
 const JUDGE0_API = process.env.JUDGE0_API;
 const JUDGE0_API_KEY = process.env.JUDGE0_API_KEY;
 

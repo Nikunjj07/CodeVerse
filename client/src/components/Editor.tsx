@@ -3,6 +3,7 @@ import type { OnMount } from "@monaco-editor/react";
 import { useRef, useState } from "react";
 import { LanguageSelector } from "./LanguageSelector";
 import { codeSnippets } from "../constants";
+import { OutputBox } from "./OutputBox";
 
 export type LanguageKey = keyof typeof codeSnippets;
 
@@ -22,17 +23,25 @@ export const CodeEditor = () => {
     }
 
     return (
-        <div className="p-10">
-            <div className="">
-                <LanguageSelector language={language} onSelect={onSelect} />
+        <div className="p-10 flex items">
+            <div className="w-[60%]">
+                <span className="font-bold text-xl">Language</span>
+                <div >
+                    
+                    <LanguageSelector language={language} onSelect={onSelect} />
+                </div>
+                <Editor
+                    height="80vh"
+                    theme="vs-dark"
+                    language={language}
+                    defaultValue="// Write your code here..."
+                    value={value}
+                    onMount={handleEditorDidMount}
+                />
             </div>
-            <Editor
-                height="80vh"
-                theme="vs-dark"
-                language={language}
-                defaultValue={value}
-                onMount={handleEditorDidMount}
-            />
+            <div className="w-[40%]">
+                <OutputBox editorRef={editorRef} language={language} />
+            </div>
         </div>
     );
 }

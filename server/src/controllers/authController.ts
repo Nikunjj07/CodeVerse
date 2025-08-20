@@ -2,7 +2,7 @@ import User from "../models/User";
 import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import { sign } from "jsonwebtoken";
-import { signupInput , signinInput} from "codeverse-common/src/index"
+import { signupInput , signinInput} from "codeverse-common"
 //add schema validation
 
 export const registerUser = async (req: Request, res: Response) => {
