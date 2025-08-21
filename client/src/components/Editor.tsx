@@ -1,17 +1,29 @@
 import { Editor } from "@monaco-editor/react";
 import type { OnMount } from "@monaco-editor/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { LanguageSelector } from "./LanguageSelector";
-import { codeSnippets, languages } from "../constants";
+import { codeSnippets, getKeyByValue, languages } from "../constants";
 import { OutputBox } from "./OutputBox";
-import { saveSubmission } from "../services/api";
+import { getSubmissionById, saveSubmission } from "../services/api";
+import { useParams } from "react-router";
 
 export type LanguageKey = keyof typeof codeSnippets;
 
 export const CodeEditor = () => {
+    const { id }  = useParams();
+
     const editorRef = useRef<any>(null);
     const [language, setLanguage] = useState("javascript");
     const [value, setValue] = useState<string>(codeSnippets["javascript"]);
+
+    useEffect(()=>{
+        if(id){
+            getSubmissionById(id).then((response)=>{
+                setLanguage(getKeyByValue(languages, Number(response.data.language))|| "javascript");
+                setValue(response.data.source_code);
+            })
+        }
+    },[id])
 
     const handleEditorDidMount: OnMount = (editor) => {
         editorRef.current = editor;
@@ -43,7 +55,7 @@ export const CodeEditor = () => {
                     height="80vh"
                     theme="vs-dark"
                     language={language}
-                    defaultValue="// Write your code here..."
+                    //defaultValue="// Write your code here..."
                     value={value}
                     onMount={handleEditorDidMount}
                 />

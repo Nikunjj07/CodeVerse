@@ -1,7 +1,13 @@
+import { CodeEditor } from "../components/Editor";
+import { Navbar } from "../components/Navbar";
+
 export const ViewSubmission = () => {
     return (
         <div>
-            View Page
+            <Navbar />
+            <div className="pt-10">
+                <CodeEditor />
+            </div>
         </div>
     );
 }
