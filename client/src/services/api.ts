@@ -92,12 +92,7 @@ export const getSubmissionById = async (id: string) => {
             "Content-Type": "application/json",
         }
     });
-    const data = await res.json();
-    return {
-        ok: res.ok,
-        status: res.status,
-        data
-    };
+    return await res.json();
 }
 
 export const saveSubmission = async ({source_code, language_id}:{source_code:string, language_id:number})=>{
@@ -127,6 +122,26 @@ export const deleteSubmission = async (submissionId: string) => {
         headers: {
             "Content-Type": "application/json",
         },
+    });
+    const data = await res.json();
+    return {
+        ok: res.ok,
+        status: res.status,
+        data
+    };
+}
+
+export const updateSubmission = async ({id, source_code, language_id}:{id:string, source_code:string, language_id:number}) => {
+    const res = await fetch(`${url}/submission/update/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+            source_code, 
+            language_id
+        }),
+        credentials: "include"
     });
     const data = await res.json();
     return {

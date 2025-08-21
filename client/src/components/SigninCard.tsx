@@ -22,11 +22,11 @@ export const SigninCard = () => {
                         setPassword(e.target.value);
                     }}/>
                     <Button label={"Sign In"} onClick={() => {
-                        signIn({
+                    signIn({
                         email,
                         password
                     }).then((res)=>{
-                        if(res.ok){
+                        if(res.status == 201){
                             navigate("/dashboard")
                         }else{
                             alert("Login Failed!")

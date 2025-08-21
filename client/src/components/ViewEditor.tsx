@@ -4,38 +4,20 @@ import { useEffect, useRef, useState } from "react";
 import { LanguageSelector } from "./LanguageSelector";
 import { codeSnippets, getKeyByValue, languages } from "../constants";
 import { OutputBox } from "./OutputBox";
-import { saveSubmission } from "../services/api";
+import { saveSubmission, updateSubmission } from "../services/api";
+import { getSubmissionById } from "../services/api";
 import { useParams } from "react-router";
 
 export type LanguageKey = keyof typeof codeSnippets;
 
-export const CodeEditor = () => {
-    //const { id }  = useParams();
+export const ViewEditor = () => {
+    const { id }  = useParams();
 
     const editorRef = useRef<any>(null);
     const [language, setLanguage] = useState("javascript");
     const [value, setValue] = useState<string>(codeSnippets["javascript"]);
 
-    // const [isLoaded, setIsLoaded] = useState(false); 
-
-    // useEffect(() => {
-    //     if (id) {
-    //         getSubmissionById(id).then((response) => {
-    //             const langKey = getKeyByValue(languages, Number(response.language)) || "javascript";
-    //             setLanguage(langKey);
-
-    //             if (editorRef.current) {
-    //                 editorRef.current.setValue(response.sourceCode);
-    //             }
-    //             setIsLoaded(true);
-    //         });
-    //     } else {
-    //         if (editorRef.current && !isLoaded) {
-    //             editorRef.current.setValue(codeSnippets[language as LanguageKey]);
-    //             setIsLoaded(true);
-    //         }
-    //     }
-    // }, [id, language, isLoaded]);
+    
 
     const handleEditorDidMount: OnMount = (editor) => {
         editorRef.current = editor;
@@ -44,8 +26,18 @@ export const CodeEditor = () => {
 
     const onSelect = (language: LanguageKey) => {
         setLanguage(language);
-        setValue(codeSnippets[language]);
+        // setValue(codeSnippets[language]);
     }
+
+    useEffect(() => {
+        if (id) {
+            getSubmissionById(id).then((response) => {
+                const langKey = getKeyByValue(languages, Number(response.language)) || "javascript";
+                setLanguage(langKey);
+                setValue(response.sourceCode);
+            });
+        }
+    }, [id]);
 
     return (
         <div className="p-10 flex items">
@@ -56,11 +48,12 @@ export const CodeEditor = () => {
                     <LanguageSelector language={language} onSelect={onSelect} />
                     <button  className="inline-flex justify-center gap-x-1.5 rounded-lg bg-neutral-900 mb-2 px-6 py-2 text-sm font-semibold text-blue-400 hover:bg-white/20 border border-blue-400" onClick={() => {
                         const code = editorRef.current.getValue();
-                        saveSubmission({
+                        updateSubmission({
+                            id: id || "",
                             source_code: code,
                             language_id: languages[language as LanguageKey]
                         }).then(()=>{
-                            alert("Submission saved successfully!");
+                            alert("Submission updated successfully!");
                         })
                     }}>Save</button>
                 </div>
