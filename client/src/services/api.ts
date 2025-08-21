@@ -95,15 +95,16 @@ export const getSubmissionById = async (id: string) => {
     return await res.json();
 }
 
-export const saveSubmission = async ({source_code, language_id}:{source_code:string, language_id:number})=>{
+export const saveSubmission = async ({name, source_code, language_id}:{name:string, source_code:string, language_id:number})=>{
     const res = await fetch(`${url}/submission/save`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
             source_code, 
-            language_id 
+            language_id,
+            name
         }),
         credentials: "include"
     });
@@ -137,9 +138,9 @@ export const updateSubmission = async ({id, source_code, language_id}:{id:string
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
             source_code, 
-            language_id
+            language_id: Number(language_id)
         }),
         credentials: "include"
     });

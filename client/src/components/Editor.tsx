@@ -6,6 +6,7 @@ import { codeSnippets, getKeyByValue, languages } from "../constants";
 import { OutputBox } from "./OutputBox";
 import { saveSubmission } from "../services/api";
 import { useParams } from "react-router";
+import { PopUpInput } from "./PopUpInput";
 
 export type LanguageKey = keyof typeof codeSnippets;
 
@@ -15,27 +16,7 @@ export const CodeEditor = () => {
     const editorRef = useRef<any>(null);
     const [language, setLanguage] = useState("javascript");
     const [value, setValue] = useState<string>(codeSnippets["javascript"]);
-
-    // const [isLoaded, setIsLoaded] = useState(false); 
-
-    // useEffect(() => {
-    //     if (id) {
-    //         getSubmissionById(id).then((response) => {
-    //             const langKey = getKeyByValue(languages, Number(response.language)) || "javascript";
-    //             setLanguage(langKey);
-
-    //             if (editorRef.current) {
-    //                 editorRef.current.setValue(response.sourceCode);
-    //             }
-    //             setIsLoaded(true);
-    //         });
-    //     } else {
-    //         if (editorRef.current && !isLoaded) {
-    //             editorRef.current.setValue(codeSnippets[language as LanguageKey]);
-    //             setIsLoaded(true);
-    //         }
-    //     }
-    // }, [id, language, isLoaded]);
+    const [showPopUp, setShowPopUp] = useState(false);
 
     const handleEditorDidMount: OnMount = (editor) => {
         editorRef.current = editor;
@@ -55,14 +36,30 @@ export const CodeEditor = () => {
                     
                     <LanguageSelector language={language} onSelect={onSelect} />
                     <button  className="inline-flex justify-center gap-x-1.5 rounded-lg bg-neutral-900 mb-2 px-6 py-2 text-sm font-semibold text-blue-400 hover:bg-white/20 border border-blue-400" onClick={() => {
-                        const code = editorRef.current.getValue();
-                        saveSubmission({
-                            source_code: code,
-                            language_id: languages[language as LanguageKey]
-                        }).then(()=>{
-                            alert("Submission saved successfully!");
-                        })
+                        // const code = editorRef.current.getValue();
+                        // saveSubmission({
+                        //     source_code: code,
+                        //     language_id: languages[language as LanguageKey]
+                        // }).then(()=>{
+                        //     alert("Submission saved successfully!");
+                        // })
+
+                        setShowPopUp(true);
                     }}>Save</button>
+                    {showPopUp && <PopUpInput OnClose={() => 
+                        setShowPopUp(false)} 
+                        OnSubmit={(subName) => {
+                            const code = editorRef.current.getValue();
+                            saveSubmission({
+                                name:subName ,
+                                source_code: code,
+                                language_id: languages[language as LanguageKey]
+                            }).then(()=>{
+                                alert("Submission saved successfully!");
+                                setShowPopUp(false)
+                            })
+                        }} 
+                    />}
                 </div>
                 
                 <Editor

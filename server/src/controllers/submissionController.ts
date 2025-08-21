@@ -156,7 +156,12 @@ export const updateSubmission = async (req: Request, res: Response) => {
   }
 
   try {
-    const updated = await Submission.findByIdAndUpdate(id, updateData, { new: true });
+    const updated = await Submission.findByIdAndUpdate(id, 
+      {
+        sourceCode: updateData.source_code,
+        language: updateData.language_id,
+      }, 
+      { new: true });
 
     if (!updated) {
       return res.status(404).json({ message: "Submission not found" });

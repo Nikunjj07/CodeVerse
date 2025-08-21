@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Code, Play, Zap, Shield, Globe, ChevronRight, Github, Twitter, Users, Star, Cpu } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const CompilerLanding: React.FC = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isVisible, setIsVisible] = useState(false);
-
+  const navigate = useNavigate();
   useEffect(() => {
     setIsVisible(true);
     
@@ -105,7 +106,7 @@ const CompilerLanding: React.FC = () => {
         </div>
       ))}
 
-      <style jsx>{`
+      <style>{`
         @keyframes drift {
           0%, 100% { transform: translate(0, 0) scale(1); }
           25% { transform: translate(30px, -50px) scale(1.1); }
@@ -178,18 +179,13 @@ const CompilerLanding: React.FC = () => {
               <Code className="w-6 h-6" />
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-              CodeFlow
+              Code Verse
             </span>
           </div>
           
-          <div className="hidden md:flex items-center space-x-8">
-            <a href="#" className="text-gray-300 hover:text-purple-400 transition-colors">Features</a>
-            <a href="#" className="text-gray-300 hover:text-purple-400 transition-colors">Languages</a>
-          </div>
-
           <div className="flex items-center space-x-4">
-            <button className="text-gray-300 hover:text-white transition-colors">Sign In</button>
-            <button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 px-6 py-2 rounded-full font-medium transition-all transform hover:scale-105">
+            <button onClick={()=>{navigate('/signin')}} className="cursor-pointer text-gray-300 hover:text-white transition-colors">Sign In</button>
+            <button onClick={()=>{navigate('/signup')}} className="cursor-pointer bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 px-6 py-2 rounded-full font-medium transition-all transform hover:scale-105">
               Get Started
             </button>
           </div>
@@ -209,20 +205,23 @@ const CompilerLanding: React.FC = () => {
             
             <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
               Experience the future of online coding with our lightning-fast compiler. 
-              Write, run, and share code in <span className="text-purple-400 font-semibold">40+ languages</span> instantly.
+              Write, run, and share code instantly.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-              <button className="group bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 px-8 py-4 rounded-full font-semibold text-lg transition-all transform hover:scale-105 flex items-center gap-2">
+              <button className="group bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 px-8 py-4 rounded-full font-semibold text-lg transition-all transform hover:scale-105 flex items-center gap-2" onClick={() => navigate('/signin')}>
                 <Play className="w-5 h-5" />
                 Start Coding Now
                 <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
-              
-              <button className="px-8 py-4 border border-purple-500/50 hover:border-purple-400 rounded-full font-semibold text-lg transition-all hover:bg-purple-500/10 flex items-center gap-2">
-                <Github className="w-5 h-5" />
-                View on GitHub
-              </button>
+              <a className='flex justify-between items-center' href="https://github.com/Nikunjj07/CodeVerse" target="_blank" rel="noopener noreferrer">
+                <button className="px-8 py-4 border border-purple-500/50 hover:border-purple-400 rounded-full font-semibold text-lg transition-all hover:bg-purple-500/10 flex items-center gap-2">
+                  
+                    <Github className="w-5 h-5" />
+                    View on GitHub
+                  
+                </button>
+              </a>
             </div>
           </div>
 
