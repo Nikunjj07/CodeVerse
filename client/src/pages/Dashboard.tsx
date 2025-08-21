@@ -25,11 +25,11 @@ export const Dashboard = () => {
                 </div>
                 <div className="flex flex-col py-10 px-5">
                     <span className="text-2xl font-bold py-2">Quick Actions</span>
-                    <button className="max-w-xs h-30 text-white bg-zinc-800 hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-purple-300 rounded-lg text-xl px-5 py-2.5 me-2 mb-2"
+                    <button className="max-w-xs h-30 text-white bg-zinc-800 cursor-pointer hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-purple-300 rounded-lg text-xl px-5 py-2.5 me-2 mb-2 hover:scale-103 transition-transform duration-200 hover:text-purple-400"
                     onClick={()=>{
                         navigate("/new");
                     }}>
-                        New Project +
+                        <span className="hover:bg-gradient-to-r from-fuchsia-600 via-pink-500 to-fuchsia-400 hover:bg-clip-text hover:text-transparent">New Project +</span>
                     </button>
                 </div>
                 <div>

@@ -1,10 +1,11 @@
+import { useState } from "react";
 import { deleteSubmission } from "../services/api";
 
 export const SubmissionCard = ({ id, title, createdAtDate, language, onClick }: { id: string; title: string; createdAtDate: string; language: string; onClick: () => void }) => {
-
+    // const [onDelete, setOnDelete] = useState("");
 
     return (
-        <div  className="bg-neutral-800  max-w-sm p-4 rounded-lg shadow-md hover:bg-neutral-600 cursor-pointer group">
+        <div  className="bg-neutral-800  max-w-sm p-4 rounded-lg shadow-md hover:bg-neutral-600 cursor-pointer group hover:scale-105 transition-transform duration-200">
             <div className="flex items-top justify-between">
                 <div onClick={onClick}>
                     <h3 className="text-lg font-bold py-1 group-hover:text-purple-400">{title}</h3>
@@ -16,6 +17,7 @@ export const SubmissionCard = ({ id, title, createdAtDate, language, onClick }: 
                         const res = await deleteSubmission(id)
                         if (res.ok) {
                             console.log("Submission deleted successfully");
+                            // setOnDelete(id || "") soft reload
                             window.location.reload();
                         } else {
                             console.error("Failed to delete submission", res.data);

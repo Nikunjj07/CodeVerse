@@ -26,7 +26,7 @@ export const SigninCard = () => {
                         email,
                         password
                     }).then((res)=>{
-                        if(res.status == 201){
+                        if(res.status == 201 || 200){
                             navigate("/dashboard")
                         }else{
                             alert("Login Failed!")
